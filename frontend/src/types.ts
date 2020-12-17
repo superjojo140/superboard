@@ -4,7 +4,7 @@ export interface Point {
 }
 
 export interface ChangeEvent {
-
+    objectId:string;
 }
 
 export interface Change {

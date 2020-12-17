@@ -12,6 +12,7 @@ var canvas = new fabric.Canvas('c');
 function addRectangle() {
     // create a rectangle object
     let createEvent: CreateEvent = {
+        objectId: "dummyObjectId",
         objectType: FabricObjectType.RECTANGLE,
         properties: {
             top: 100,
@@ -26,7 +27,7 @@ function addRectangle() {
         timestamp: new Date().getTime(),
         initiator: "dummy",
         eventType: ChangeEventType.CREATE,
-        event: createEvent
+        event: createEvent,
     }
 
     applyChange(change);
@@ -50,9 +51,13 @@ function applyCreateEvent(e: CreateEvent) {
     switch (e.objectType) {
         case FabricObjectType.RECTANGLE:
             var rect = new fabric.Rect(e.properties);
+            rect.id = e.objectId;
             canvas.add(rect);
+
+
             rect.on('moved', function (opt) {
                 const moveEvent: MoveEvent = {
+                    objectId: opt.target.id,
                     from: {
                         x: r(opt.transform.original.left),
                         y: r(opt.transform.original.top)
@@ -66,26 +71,27 @@ function applyCreateEvent(e: CreateEvent) {
                     timestamp: new Date().getTime(),
                     initiator: "dummy",
                     eventType: ChangeEventType.MOVE,
-                    event: moveEvent
+                    event: moveEvent,
                 }
                 applyChange(change)
             });
             rect.on('scaled', function (opt) {
                 const scaleEvent: ScaleEvent = {
+                    objectId: opt.target.id,
                     from: {
                         x: opt.transform.original.scaleX.toFixed(2),
                         y: opt.transform.original.scaleY.toFixed(2),
                     },
                     to: {
-                       x: opt.target.scaleX.toFixed(2),
-                       y: opt.target.scaleY.toFixed(2),
+                        x: opt.target.scaleX.toFixed(2),
+                        y: opt.target.scaleY.toFixed(2),
                     }
                 };
                 const change: Change = {
                     timestamp: new Date().getTime(),
                     initiator: "dummy",
                     eventType: ChangeEventType.SCALE,
-                    event: scaleEvent
+                    event: scaleEvent,
                 }
                 applyChange(change)
             });
