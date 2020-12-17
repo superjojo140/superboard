@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Power Board</title>
+
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+
+        .container{
+            display: flex;
+        }
+
+        .right{
+            margin: 10px;
+        }
+
+        .eventItem{
+            border: 1px solid blue;
+            padding: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="left">
+            <canvas id="c" width="300" height="300"></canvas>
+            <menu>
+                <button onclick="addRectangle()">Add Rectangle</button>
+            </menu>
+        </div>
+        <div class="right" id="eventContainer">
+            <div class="eventItem">Event History</div>
+        </div>
+    </div>
+
+
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.2.0/fabric.js" integrity="sha512-T9FQEftEWWOcsU3FH836079r2Bg1Oc81zDUjyACgDClBFM1CbUPMdVwa6lyAkJuabzcuAOcMgnXqr738dA0WNQ==" crossorigin="anonymous"></script>
+<script src="dist/index.js"></script>
+
+</html>
