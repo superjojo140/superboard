@@ -14,7 +14,12 @@ export interface Change {
     event: ChangeEvent;
 }
 
-export interface DragEvent extends ChangeEvent {
+export interface MoveEvent extends ChangeEvent {
+    from: Point;
+    to: Point;
+}
+
+export interface ScaleEvent extends ChangeEvent {
     from: Point;
     to: Point;
 }

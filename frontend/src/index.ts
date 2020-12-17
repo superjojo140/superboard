@@ -1,7 +1,7 @@
 import * as fabric from "fabric"
-import { Change, ChangeEventType, CreateEvent, FabricObjectType } from "./types";
+import { Change, ChangeEventType, CreateEvent, FabricObjectType, MoveEvent, ScaleEvent } from "./types";
 
-let changeHistory:Change[] = []
+let changeHistory: Change[] = []
 
 // create a wrapper around native canvas element (with id="c")
 var canvas = new fabric.Canvas('c');
@@ -36,7 +36,7 @@ function addRectangle() {
 }
 
 function applyChange(change: Change) {
-    document.getElementById("eventContainer").innerHTML += ` <div class="eventItem"><pre><code>${JSON.stringify(change,undefined,4)}</code></pre></div>`
+    document.getElementById("eventContainer").innerHTML = ` <div class="eventItem"><pre><code>${JSON.stringify(change, undefined, 4)}</code></pre></div>` + document.getElementById("eventContainer").innerHTML
     //TODO Determine wether to apply this change...
     changeHistory.push(change);
 
@@ -51,15 +51,44 @@ function applyCreateEvent(e: CreateEvent) {
         case FabricObjectType.RECTANGLE:
             var rect = new fabric.Rect(e.properties);
             canvas.add(rect);
-            // rect.on('moved', function (opt) {
-            //     const desc = `${opt.transform.action}: From (${r(opt.transform.original.left)}|${r(opt.transform.original.top)}) to (${r(opt.target.left)}|${r(opt.target.top)})`;
-            //     let event = new PBEvent(Actions.MOVED, Types.Rectangle, desc, {})
-            //     applyChange(event)
-            // });
-            // rect.on('scaled', function (opt) {
-            //     let event = new PBEvent(Actions.SCALED, Types.Rectangle, `Scaled from ${opt.transform.original.scaleX} to ${opt.target.scaleX}`, {})
-            //     applyChange(event)
-            // });
+            rect.on('moved', function (opt) {
+                const moveEvent: MoveEvent = {
+                    from: {
+                        x: r(opt.transform.original.left),
+                        y: r(opt.transform.original.top)
+                    },
+                    to: {
+                        x: r(opt.target.left),
+                        y: r(opt.target.top)
+                    }
+                };
+                const change: Change = {
+                    timestamp: new Date().getTime(),
+                    initiator: "dummy",
+                    eventType: ChangeEventType.MOVE,
+                    event: moveEvent
+                }
+                applyChange(change)
+            });
+            rect.on('scaled', function (opt) {
+                const scaleEvent: ScaleEvent = {
+                    from: {
+                        x: opt.transform.original.scaleX.toFixed(2),
+                        y: opt.transform.original.scaleY.toFixed(2),
+                    },
+                    to: {
+                       x: opt.target.scaleX.toFixed(2),
+                       y: opt.target.scaleY.toFixed(2),
+                    }
+                };
+                const change: Change = {
+                    timestamp: new Date().getTime(),
+                    initiator: "dummy",
+                    eventType: ChangeEventType.SCALE,
+                    event: scaleEvent
+                }
+                applyChange(change)
+            });
             break;
     }
 }
