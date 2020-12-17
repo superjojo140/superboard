@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "target": "ES6",
+        "lib": [
+            "es6",
+            "DOM"
+        ],
+        "outDir": "frontend/dist",
+        "module": "CommonJS",
+    },
+    "include": [
+        "frontend/src/*.ts"
+    ]
+}

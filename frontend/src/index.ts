@@ -1,8 +1,10 @@
+import * as fabric from "fabric"
+
 // create a wrapper around native canvas element (with id="c")
 var canvas = new fabric.Canvas('c');
 
 class PBEvent {
-    constructor(action, objectType, name, options) {
+    constructor(public action, public objectType, public name, public options) {
         this.action = action;
         this.objectType = objectType;
         this.name = name;
@@ -73,3 +75,5 @@ function applyEvent(event) {
 function r(n){
     return Math.round(n);
 }
+
+document.getElementById("addRectButton").addEventListener("click",addRectangle);
