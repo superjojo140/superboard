@@ -5,7 +5,7 @@
             "es6",
             "DOM"
         ],
-        "outDir": "frontend/dist",
+        "outDir": "dist",
         "module": "CommonJS",
     },
     "include": [

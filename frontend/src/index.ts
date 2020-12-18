@@ -6,8 +6,10 @@ let changeHistory: Change[] = []
 // create a wrapper around native canvas element (with id="c")
 var canvas = new fabric.Canvas('c');
 
+//socketio init
+let socket = io();
 
-
+socket.on("server.change",applyChange)
 
 function addRectangle() {
     // create a rectangle object
@@ -30,7 +32,7 @@ function addRectangle() {
         event: createEvent,
     }
 
-    applyChange(change);
+    emmitChange(change);
 
 
 
@@ -73,7 +75,7 @@ function applyCreateEvent(e: CreateEvent) {
                     eventType: ChangeEventType.MOVE,
                     event: moveEvent,
                 }
-                applyChange(change)
+                emmitChange(change)
             });
             rect.on('scaled', function (opt) {
                 const scaleEvent: ScaleEvent = {
@@ -93,7 +95,7 @@ function applyCreateEvent(e: CreateEvent) {
                     eventType: ChangeEventType.SCALE,
                     event: scaleEvent,
                 }
-                applyChange(change)
+                emmitChange(change)
             });
             break;
     }
@@ -101,6 +103,10 @@ function applyCreateEvent(e: CreateEvent) {
 
 function r(n) {
     return Math.round(n);
+}
+
+function emmitChange(change:Change){
+    socket.emit('client.change', change);
 }
 
 document.getElementById("addRectButton").addEventListener("click", addRectangle);
