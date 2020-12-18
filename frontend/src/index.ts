@@ -1,7 +1,9 @@
 import * as fabric from "fabric"
+import { v4 as uuidv4} from "uuid";
 import { Change, ChangeEventType, CreateEvent, FabricObjectType, MoveEvent, ScaleEvent } from "./types";
 
 let changeHistory: Change[] = []
+export let objectMap = {}
 
 // create a wrapper around native canvas element (with id="c")
 var canvas = new fabric.Canvas('c');
@@ -9,12 +11,12 @@ var canvas = new fabric.Canvas('c');
 //socketio init
 let socket = io();
 
-socket.on("server.change",applyChange)
+socket.on("server.change", applyChange)
 
 function addRectangle() {
     // create a rectangle object
     let createEvent: CreateEvent = {
-        objectId: "dummyObjectId",
+        objectId: uuidv4(), //generate uuid as objectId
         objectType: FabricObjectType.RECTANGLE,
         properties: {
             top: 100,
@@ -45,6 +47,8 @@ function applyChange(change: Change) {
 
     switch (change.eventType) {
         case ChangeEventType.CREATE: applyCreateEvent(change.event as CreateEvent); break;
+        case ChangeEventType.MOVE: applyMoveEvent(change.event as MoveEvent); break;
+        case ChangeEventType.SCALE: applyScaleEvent(change.event as ScaleEvent); break;
     }
 
 }
@@ -55,6 +59,7 @@ function applyCreateEvent(e: CreateEvent) {
             var rect = new fabric.Rect(e.properties);
             rect.id = e.objectId;
             canvas.add(rect);
+            objectMap[e.objectId] = rect;
 
 
             rect.on('moved', function (opt) {
@@ -101,11 +106,33 @@ function applyCreateEvent(e: CreateEvent) {
     }
 }
 
+function applyMoveEvent(e: MoveEvent) {
+
+    var obj = objectMap[e.objectId];
+    obj.set({
+        left:e.to.x,
+        top:e.to.y
+    })
+    canvas.renderAll();
+
+}
+
+function applyScaleEvent(e: ScaleEvent) {
+
+    var obj = objectMap[e.objectId];
+    obj.set({
+        scaleX:e.to.x,
+        scaleY:e.to.y
+    })
+    canvas.renderAll();
+
+}
+
 function r(n) {
     return Math.round(n);
 }
 
-function emmitChange(change:Change){
+function emmitChange(change: Change) {
     socket.emit('client.change', change);
 }
 
