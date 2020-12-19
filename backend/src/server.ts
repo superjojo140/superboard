@@ -9,7 +9,7 @@ dotenv.config();
 import {Change} from "../../frontend/src/types"
 
  //Verzeichniss für eigene Scripts zur Verfügung stellen
-app.use(express.static(`${__dirname}/../../dist/`));
+app.use(process.env.HOSTPREFIX, express.static(`${__dirname}/../../dist/`));
 
 
 
@@ -19,11 +19,11 @@ var connections: { [key: string]: any } = [];
 
 //Start Server
 server.listen(process.env.PORT);
-console.log(`Server running on http://localhost:${process.env.PORT}`);
+console.log(`Server running on: ${process.env.HOST}${process.env.HOSTPREFIX}`);
 
 
 
-//If a new CLient is connected
+//If a new Client is connected
 io.sockets.on("connection", function (socket: any) {
     connections[socket.id] = socket;
     console.log("New Client connected: " + socket.id);
