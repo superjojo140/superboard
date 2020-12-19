@@ -9,7 +9,7 @@ dotenv.config();
 import {Change} from "../../frontend/src/types"
 
  //Verzeichniss für eigene Scripts zur Verfügung stellen
-app.use(process.env.HOSTPREFIX, express.static(`${__dirname}/../../dist/`));
+app.use(express.static(`${__dirname}/../../dist/`));
 
 
 
@@ -19,7 +19,7 @@ var connections: { [key: string]: any } = [];
 
 //Start Server
 server.listen(process.env.PORT);
-console.log(`Server running on: ${process.env.HOST}${process.env.HOSTPREFIX}`);
+console.log(`Server running on port ${process.env.PORT}`);
 
 
 

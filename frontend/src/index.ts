@@ -9,7 +9,7 @@ export let objectMap = {}
 var canvas = new fabric.Canvas('c');
 
 //socketio init
-let socket = io();
+let socket = io.connect({path:`${process.env.HOSTPREFIX}/socket.io`});
 
 socket.on("server.change", applyChange)
 
