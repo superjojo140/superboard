@@ -1,18 +1,18 @@
 {
-  "name": "power-board",
-  "version": "1.0.0",
+  "name": "superboard",
+  "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "backend/src/server.ts",
   "scripts": {
+    "start": "ts-node backend/src/server.ts",
     "webpack": "webpack",
     "webpack-watch": "webpack --watch",
     "server-watch": "ts-node-dev backend/src/server.ts",
     "server": "ts-node backend/src/server.ts"
   },
-  "author": "",
+  "author": "superjojo140",
   "license": "MIT",
   "dependencies": {
-    "@types/uuid": "^8.3.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "fabric": "^4.2.0",
@@ -20,6 +20,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@types/uuid": "^8.3.0",
     "@types/socket.io-client": "^1.4.34",
     "dotenv-webpack": "^6.0.0",
     "ts-loader": "^8.0.12",
