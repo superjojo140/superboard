@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "webpack": "webpack",
-    "dev": "ts-node-dev backend/src/server.ts"
+    "webpack-watch": "webpack --watch",
+    "server-watch": "ts-node-dev backend/src/server.ts",
+    "server": "ts-node backend/src/server.ts"
   },
   "author": "",
   "license": "MIT",

@@ -5,7 +5,7 @@ module.exports = {
   entry: './frontend/src/index.ts',
   devtool: 'inline-source-map',
   mode: "development",
-  watch: true,
+  watch: false,
   externals: {
     "fabric": 'fabric',
   },
